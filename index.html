@@ -126,6 +126,19 @@
   .week { display: flex; gap: 6px; margin-top: 8px; }
   .week span { width: 34px; height: 34px; border-radius: 10px; background: var(--bg2); font-size: 11px; display: flex; align-items: center; justify-content: center; color: var(--hint); }
   .week span.on { background: var(--accent); color: var(--accent-text); }
+
+  /* Tesbihmatik */
+  .tsb { flex: 1; display: flex; flex-direction: column; min-height: var(--vh); }
+  .tsb main { justify-content: center; }
+  .seg { display: flex; background: var(--bg2); border-radius: 12px; padding: 4px; margin-top: 12px; }
+  .seg button { flex: 1; padding: 9px; border-radius: 9px; font-weight: 600; font-size: 14px; color: var(--hint); }
+  .seg button.on { background: var(--accent); color: var(--accent-text); }
+  .tsb-stats { display: flex; justify-content: center; gap: 28px; margin-top: 18px; text-align: center; }
+  .tsb-stats b { display: block; font-size: 22px; font-variant-numeric: tabular-nums; }
+  .tsb-stats span { font-size: 12px; color: var(--hint); }
+  .counter.big { width: min(72vw, 290px); }
+  .counter.big .count { font-size: 68px; }
+  .tsb .controls { grid-template-columns: 1fr 1fr; }
 </style>
 </head>
 <body>
@@ -136,6 +149,7 @@
       <div class="brand">Sabah Tesbihatı<small id="today"></small></div>
       <div class="chips">
         <div class="chip streak" id="streakChip" title="Seri">🔥 <span id="streak">0</span></div>
+        <button class="chip" id="tsbBtn" aria-label="Tesbihmatik">📿</button>
         <button class="chip" id="listBtn" aria-label="Adımlar">☰</button>
         <button class="chip" id="settingsBtn" aria-label="Ayarlar">⚙</button>
       </div>
@@ -186,6 +200,44 @@
     <button class="ctrl" style="flex:1" id="againBtn">Baştan başla</button>
     <button class="ctrl primary" style="flex:1" id="closeBtn">Kapat</button>
   </div>
+</div>
+
+<div id="tsb" class="tsb hidden">
+  <header>
+    <div class="top">
+      <div class="brand">Tesbihmatik<small>Serbest zikir sayacı</small></div>
+      <div class="chips"><button class="chip" id="tsbClose" aria-label="Tesbihata dön">✕</button></div>
+    </div>
+    <div class="seg" id="tsbSeg">
+      <button data-n="33">33</button>
+      <button data-n="99">99</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="counter-wrap">
+      <button class="counter big" id="tsbCounter" aria-label="Say">
+        <svg viewBox="0 0 200 200">
+          <circle class="track" cx="100" cy="100" r="92" fill="none" stroke-width="10"/>
+          <circle class="bar" id="tsbRing" cx="100" cy="100" r="92" fill="none" stroke-width="10"/>
+        </svg>
+        <div class="face">
+          <div class="count" id="tsbCount">0</div>
+          <div class="target" id="tsbTarget">/ 33</div>
+          <div class="tap-hint">dokun</div>
+        </div>
+      </button>
+    </div>
+    <div class="tsb-stats">
+      <div><b id="tsbRounds">0</b><span>tur</span></div>
+      <div><b id="tsbTotal">0</b><span>toplam</span></div>
+    </div>
+  </main>
+
+  <nav class="controls">
+    <button class="ctrl" id="tsbUndo">↺ Geri al</button>
+    <button class="ctrl" id="tsbReset">Sıfırla</button>
+  </nav>
 </div>
 
 <div id="listSheet" class="sheet-bg hidden">
@@ -518,6 +570,64 @@ function restart() {
   scrollCardTop(); render();
 }
 
+// ---------- Tesbihmatik ----------
+let tsb = { target: 33, count: 0, rounds: 0, total: 0 };
+let tsbOpen = false;
+
+function saveTsb() { storeSet("tesbih", JSON.stringify(tsb)); }
+
+function renderTsb() {
+  const done = tsb.count >= tsb.target;
+  $("tsbCount").textContent = tsb.count;
+  $("tsbTarget").textContent = `/ ${tsb.target}`;
+  $("tsbRounds").textContent = tsb.rounds;
+  $("tsbTotal").textContent = tsb.total;
+  const ring = $("tsbRing");
+  ring.style.strokeDasharray = RING_C;
+  ring.style.strokeDashoffset = RING_C * (1 - Math.min(tsb.count / tsb.target, 1));
+  $("tsbCounter").classList.toggle("done", done);
+  $("tsbUndo").disabled = tsb.count === 0;
+  document.querySelectorAll("#tsbSeg button").forEach(b => b.classList.toggle("on", +b.dataset.n === tsb.target));
+}
+
+function tsbTap() {
+  if (tsb.count >= tsb.target) tsb.count = 0;   // tur bitti, yeni tura başla
+  tsb.count++; tsb.total++;
+  if (tsb.count === tsb.target) { tsb.rounds++; haptic("step"); }
+  else if (tsb.count % 33 === 0) haptic("step"); // 99'da 33 ve 66'da işaret
+  else haptic("tap");
+  saveTsb(); renderTsb();
+}
+
+function tsbUndo() {
+  if (tsb.count === 0) return;
+  if (tsb.count === tsb.target) tsb.rounds--;
+  tsb.count--; tsb.total--;
+  haptic("soft"); saveTsb(); renderTsb();
+}
+
+function setTsbTarget(n) {
+  if (n === tsb.target) return;
+  tsb.target = n; tsb.count = 0;
+  haptic("soft"); saveTsb(); renderTsb();
+}
+
+function openTsb() {
+  tsbOpen = true;
+  $("app-main").style.display = "none";
+  $("finish").classList.add("hidden");
+  $("tsb").classList.remove("hidden");
+  if (tg && tg.BackButton) tg.BackButton.show();
+  renderTsb();
+}
+
+function closeTsb() {
+  tsbOpen = false;
+  $("tsb").classList.add("hidden");
+  if (history.includes(dateKey()) && state.counts.every((v, i) => v >= STEPS[i].n)) finish();
+  else { $("app-main").style.display = "flex"; render(); }
+}
+
 // ---------- Sayfalar ----------
 function openSheet(id) { $(id).classList.remove("hidden"); }
 function closeSheet(id) { $(id).classList.add("hidden"); }
@@ -558,9 +668,21 @@ document.querySelectorAll(".switch").forEach(sw => sw.addEventListener("click", 
 $("resetToday").addEventListener("click", () => { closeSheet("settingsSheet"); restart(); });
 $("againBtn").addEventListener("click", restart);
 $("closeBtn").addEventListener("click", () => { if (tg && tg.close) tg.close(); });
+$("tsbBtn").addEventListener("click", openTsb);
+$("tsbClose").addEventListener("click", closeTsb);
+$("tsbCounter").addEventListener("click", tsbTap);
+$("tsbUndo").addEventListener("click", tsbUndo);
+$("tsbReset").addEventListener("click", () => { tsb = { target: tsb.target, count: 0, rounds: 0, total: 0 }; haptic("soft"); saveTsb(); renderTsb(); });
+document.querySelectorAll("#tsbSeg button").forEach(b => b.addEventListener("click", () => setTsbTarget(+b.dataset.n)));
 
 // Telegram yoksa (tarayıcıda test) klavye: boşluk = say, Backspace = geri al
 document.addEventListener("keydown", e => {
+  if (tsbOpen) {
+    if (e.code === "Space" || e.code === "Enter") { e.preventDefault(); tsbTap(); }
+    else if (e.code === "Backspace") { e.preventDefault(); tsbUndo(); }
+    else if (e.code === "Escape") closeTsb();
+    return;
+  }
   if (!$("finish").classList.contains("hidden")) return;
   if (e.code === "Space" || e.code === "Enter") { e.preventDefault(); tap(); }
   else if (e.code === "Backspace") { e.preventDefault(); undo(); }
@@ -570,7 +692,9 @@ document.addEventListener("keydown", e => {
 
 // Gün değiştiyse (uygulama açık kalmışsa) yeni güne başla
 document.addEventListener("visibilitychange", () => {
-  if (!document.hidden && state && state.date !== dateKey()) restart();
+  if (!document.hidden && state && state.date !== dateKey()) {
+    if (tsbOpen) { state = freshState(); save(); } else restart();
+  }
 });
 
 // ---------- Başlangıç ----------
@@ -579,22 +703,25 @@ document.addEventListener("visibilitychange", () => {
     tg.ready();
     tg.expand();
     if (tg.disableVerticalSwipes) try { tg.disableVerticalSwipes(); } catch (e) {}
-    if (tg.BackButton) tg.BackButton.onClick(() => goTo(state.step - 1));
+    if (tg.BackButton) tg.BackButton.onClick(() => tsbOpen ? closeTsb() : goTo(state.step - 1));
     try {
       tg.setHeaderColor("bg_color");
       tg.setBackgroundColor("bg_color");
     } catch (e) {}
   }
 
-  const [st, hi, se] = await Promise.all([storeGet("state"), storeGet("history"), storeGet("settings")]);
+  const [st, hi, se, ts] = await Promise.all([storeGet("state"), storeGet("history"), storeGet("settings"), storeGet("tesbih")]);
   settings = { ...DEFAULT_SETTINGS, ...parse(se, {}) };
+  tsb = { ...tsb, ...parse(ts, {}) };
   history = parse(hi, []);
   const saved = parse(st, null);
   state = (saved && saved.date === dateKey() && Array.isArray(saved.counts) && saved.counts.length === STEPS.length)
     ? saved : freshState();
 
   render();
-  if (history.includes(dateKey()) && state.counts.every((v, i) => v >= STEPS[i].n)) finish();
+  // Bottaki "Tesbihmatik" butonu uygulamayı #tesbih ile açar
+  if (location.hash === "#tesbih") openTsb();
+  else if (history.includes(dateKey()) && state.counts.every((v, i) => v >= STEPS[i].n)) finish();
 })();
 </script>
 </body>

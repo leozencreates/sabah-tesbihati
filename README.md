@@ -11,6 +11,19 @@ Tek dosya (`index.html`), sunucu tarafı kod gerekmez.
 - İlerleme Telegram CloudStorage'a kaydedilir (cihazlar arası senkron), günlük seri (🔥) takibi
 - Her gün otomatik sıfırlanır
 - Ayarlar: Arapça / okunuş / meal göster-gizle, titreşim, otomatik geçiş
+- 📿 Tesbihmatik: 33'lük / 99'luk serbest zikir sayacı (tur ve toplam takibi, 99'da 33 ve 66'da titreşim). Doğrudan açmak için adresin sonuna `#tesbih` ekle
+
+## Bot (/start karşılama mesajı)
+`bot/` klasöründeki Cloudflare Worker, `/start` ve `/tesbihmatik` komutlarına butonlu mesajla cevap verir.
+Token ve webhook sırrı `wrangler secret` olarak saklanır, repoda yer almaz.
+```
+cd bot
+npx wrangler login
+npx wrangler secret put BOT_TOKEN
+npx wrangler secret put WEBHOOK_SECRET
+npx wrangler deploy
+```
+Sonra Telegram'a webhook'u bildir: `setWebhook?url=<worker adresi>&secret_token=<WEBHOOK_SECRET>`
 
 ## Yayınlama
 
