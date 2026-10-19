@@ -3,6 +3,10 @@
 Sabah namazı sonrası tesbihatı adım adım okutan, sayaçlı bir Telegram Mini App.
 Tek dosya (`index.html`), sunucu tarafı kod gerekmez.
 
+## Release — Kullanım
+Hiçbir şey kurmana gerek yok: Telegram'da **[@Tesbihatbot](https://t.me/Tesbihatbot)**'u açıp **Başlat**'a dokunman yeterli.
+Botun gönderdiği butonlarla Sabah Tesbihatı, 📿 Tesbihmatik ve 📖 Kur'ân-ı Kerîm / Esmâü'l-Hüsnâ açılır.
+
 ## Özellikler
 - 15 adımlık sabah tesbihatı: Arapça metin, okunuş ve meal
 - Sabaha özel zikirler işaretli (10× tevhid, 7× "Allâhümme ecirnâ mine'n-nâr", Haşr son 3 âyet, 7× Hasbiyallâh)
@@ -13,6 +17,8 @@ Tek dosya (`index.html`), sunucu tarafı kod gerekmez.
 - Ayarlar: dil (Türkçe / English / Русский), Arapça / okunuş / meal göster-gizle, titreşim, otomatik geçiş
 - Dil, Telegram dil ayarından otomatik seçilir; bot da kullanıcının dilinde cevap verir
 - 📿 Tesbihmatik: 33'lük / 99'luk serbest zikir sayacı (tur ve toplam takibi, 99'da 33 ve 66'da titreşim). Doğrudan açmak için adresin sonuna `#tesbih` ekle
+- 📖 Kur'ân-ı Kerîm: 114 sûre, Arapça metin + meal (tr: Diyanet, en: Saheeh International, ru: Kuliev); kaldığın âyet kaydedilir. Metin çalışma anında [alquran.cloud](https://alquran.cloud) API'sinden çekilir (internet gerekir). Doğrudan açmak için `#kuran`
+- 📖 Esmâü'l-Hüsnâ: Allah'ın 99 ismi Arapça, okunuş ve anlamlarıyla. Doğrudan açmak için `#esma`
 
 ## Bot (/start karşılama mesajı)
 `bot/` klasöründeki Cloudflare Worker, `/start` ve `/tesbihmatik` komutlarına butonlu mesajla cevap verir.

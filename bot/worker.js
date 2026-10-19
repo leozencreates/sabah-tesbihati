@@ -10,10 +10,12 @@ const TEXT = {
       "Esselâmü aleyküm{name} 🌅\n\n" +
       "<b>Sabah Tesbihatı</b>'na hoş geldin. Sabah namazından sonraki tesbihatı " +
       "Arapça metin, okunuş ve meal ile adım adım okuyabilir, sayacı takip edebilirsin.\n\n" +
-      "📿 <b>Tesbihmatik</b> ile 33'lük ya da 99'luk serbest zikir de çekebilirsin.\n\n" +
+      "📿 <b>Tesbihmatik</b> ile 33'lük ya da 99'luk serbest zikir de çekebilirsin.\n" +
+      "📖 <b>Kur'ân-ı Kerîm</b>'i Arapça ve mealiyle okuyabilir, <b>Esmâü'l-Hüsnâ</b>'yı anlamlarıyla inceleyebilirsin.\n\n" +
       "Başlamak için aşağıdaki butonlardan birine dokun.",
     app: "🌅 Sabah Tesbihatı",
     tsb: "📿 Tesbihmatik (33 / 99)",
+    lib: "📖 Kur'ân-ı Kerîm · Esmâü'l-Hüsnâ",
     tsbOpen: "📿 Tesbihmatik'i açmak için dokun:",
     fallback: "Uygulamayı açmak için aşağıdaki butonları kullanabilirsin.",
   },
@@ -22,10 +24,12 @@ const TEXT = {
       "Assalamu alaykum{name} 🌅\n\n" +
       "Welcome to <b>Morning Tasbihat</b>. Recite the dhikr after the Fajr prayer step by step " +
       "with Arabic text, transliteration and meaning, and keep track with the counter.\n\n" +
-      "📿 With <b>Tesbihmatik</b> you can also do free dhikr in sets of 33 or 99.\n\n" +
+      "📿 With <b>Tesbihmatik</b> you can also do free dhikr in sets of 33 or 99.\n" +
+      "📖 Read the <b>Holy Quran</b> in Arabic with translation and explore the <b>99 Names of Allah</b>.\n\n" +
       "Tap one of the buttons below to begin.",
     app: "🌅 Morning Tasbihat",
     tsb: "📿 Tesbihmatik (33 / 99)",
+    lib: "📖 Quran · 99 Names",
     tsbOpen: "📿 Tap to open Tesbihmatik:",
     fallback: "Use the buttons below to open the app.",
   },
@@ -34,10 +38,12 @@ const TEXT = {
       "Ассаляму алейкум{name} 🌅\n\n" +
       "Добро пожаловать в <b>Утренний тасбихат</b>. Читай зикры после утреннего намаза шаг за шагом — " +
       "с арабским текстом, транскрипцией и переводом смысла, и следи за счётчиком.\n\n" +
-      "📿 В <b>Тесбихматике</b> можно также свободно читать зикр по 33 или 99.\n\n" +
+      "📿 В <b>Тесбихматике</b> можно также свободно читать зикр по 33 или 99.\n" +
+      "📖 Читай <b>Коран</b> на арабском с переводом смыслов и изучай <b>99 имён Аллаха</b>.\n\n" +
       "Нажми одну из кнопок ниже, чтобы начать.",
     app: "🌅 Утренний тасбихат",
     tsb: "📿 Тесбихматик (33 / 99)",
+    lib: "📖 Коран · 99 имён",
     tsbOpen: "📿 Нажми, чтобы открыть Тесбихматик:",
     fallback: "Открой приложение кнопками ниже.",
   },
@@ -55,6 +61,7 @@ function keyboard(t) {
     inline_keyboard: [
       [{ text: t.app, web_app: { url: APP_URL } }],
       [{ text: t.tsb, web_app: { url: APP_URL + "#tesbih" } }],
+      [{ text: t.lib, web_app: { url: APP_URL + "#kuran" } }],
     ],
   };
 }
