@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Sabah Tesbihatı</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: var(--tg-theme-bg-color, #0f1720);
+    --bg2: var(--tg-theme-secondary-bg-color, #17212b);
+    --text: var(--tg-theme-text-color, #f2f4f7);
+    --hint: var(--tg-theme-hint-color, #8a97a6);
+    --accent: var(--tg-theme-button-color, #3fa37c);
+    --accent-text: var(--tg-theme-button-text-color, #ffffff);
+    --link: var(--tg-theme-link-color, #6ab3f3);
+    --gold: #d4a94c;
+    --radius: 18px;
+    --vh: var(--tg-viewport-stable-height, 100vh);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
+  body {
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    min-height: var(--vh);
+    display: flex; flex-direction: column;
+    user-select: none; -webkit-user-select: none;
+    overscroll-behavior: none;
+  }
+  button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
+
+  header { padding: 14px 16px 8px; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .brand { font-weight: 700; font-size: 18px; }
+  .brand small { display: block; font-weight: 400; font-size: 12px; color: var(--hint); margin-top: 2px; }
+  .chips { display: flex; gap: 6px; }
+  .chip {
+    background: var(--bg2); border-radius: 999px; padding: 7px 11px;
+    font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 5px;
+  }
+  .chip.streak { color: var(--gold); }
+  .progress { margin-top: 12px; height: 6px; background: var(--bg2); border-radius: 99px; overflow: hidden; }
+  .progress > i { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 99px; transition: width .3s; }
+  .step-meta { display: flex; justify-content: space-between; margin-top: 6px; font-size: 12px; color: var(--hint); }
+
+  main { flex: 1; display: flex; flex-direction: column; padding: 4px 16px 0; min-height: 0; }
+  .card {
+    background: var(--bg2); border-radius: var(--radius); padding: 16px;
+    flex: 1 1 auto; min-height: 120px; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    user-select: text; -webkit-user-select: text;
+  }
+  .card h2 { margin: 0 0 4px; font-size: 17px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .badge { font-size: 11px; font-weight: 600; color: var(--gold); border: 1px solid var(--gold); border-radius: 99px; padding: 2px 8px; }
+  .pre { font-size: 13px; color: var(--hint); margin: 6px 0 0; font-style: italic; }
+  .ar {
+    font-family: Amiri, "Traditional Arabic", serif; direction: rtl; text-align: center;
+    font-size: 27px; line-height: 2; margin: 12px 0 6px;
+  }
+  .ar.long { font-size: 23px; text-align: justify; text-align-last: center; }
+  .tr { font-size: 15px; line-height: 1.55; text-align: center; font-weight: 500; margin: 8px 0; }
+  .mean { font-size: 13.5px; line-height: 1.55; color: var(--hint); text-align: center; margin: 8px 0 0; }
+  .hidden { display: none !important; }
+
+  .counter-wrap { display: flex; flex-direction: column; align-items: center; padding: 14px 0 6px; flex-shrink: 0; }
+  .counter {
+    position: relative; width: min(58vw, 220px); aspect-ratio: 1; border-radius: 50%;
+    touch-action: manipulation; transition: transform .08s;
+  }
+  .counter:active { transform: scale(.96); }
+  .counter svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+  .counter .track { stroke: var(--bg2); }
+  .counter .bar { stroke: var(--accent); transition: stroke-dashoffset .2s; stroke-linecap: round; }
+  .counter.done .bar { stroke: var(--gold); }
+  .counter .face {
+    position: absolute; inset: 14px; border-radius: 50%; background: var(--bg2);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .count { font-size: 52px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+  .target { font-size: 14px; color: var(--hint); margin-top: 6px; }
+  .tap-hint { font-size: 12px; color: var(--hint); margin-top: 4px; }
+
+  .controls {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
+    padding: 8px 16px calc(14px + env(safe-area-inset-bottom));
+  }
+  .ctrl {
+    background: var(--bg2); border-radius: 14px; padding: 12px 6px;
+    font-size: 13px; font-weight: 600; text-align: center;
+  }
+  .ctrl:disabled { opacity: .35; }
+  .ctrl.primary { background: var(--accent); color: var(--accent-text); }
+
+  /* Overlay sheets */
+  .sheet-bg { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 10; display: flex; align-items: flex-end; }
+  .sheet {
+    background: var(--bg); width: 100%; max-height: 80vh; overflow-y: auto;
+    border-radius: 20px 20px 0 0; padding: 18px 16px calc(18px + env(safe-area-inset-bottom));
+  }
+  .sheet h3 { margin: 0 0 12px; font-size: 17px; }
+  .list-item {
+    display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+    padding: 11px 12px; border-radius: 12px; font-size: 14px;
+  }
+  .list-item.current { background: var(--bg2); }
+  .dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--hint); flex-shrink: 0;
+         display: flex; align-items: center; justify-content: center; font-size: 12px; }
+  .list-item.complete .dot { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+  .list-item .n { margin-left: auto; color: var(--hint); font-size: 13px; }
+  .row { display: flex; align-items: center; justify-content: space-between; padding: 12px 2px; font-size: 15px; border-bottom: 1px solid var(--bg2); }
+  .switch { width: 46px; height: 28px; border-radius: 99px; background: var(--bg2); position: relative; transition: background .2s; }
+  .switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; transition: transform .2s; }
+  .switch.on { background: var(--accent); }
+  .switch.on::after { transform: translateX(18px); }
+  .danger { color: #e5534b; width: 100%; padding: 14px; margin-top: 10px; border-radius: 12px; background: var(--bg2); font-weight: 600; }
+  .note { font-size: 12px; color: var(--hint); line-height: 1.5; margin-top: 14px; }
+
+  /* Completion */
+  .finish { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px; gap: 10px; }
+  .finish .big { font-family: Amiri, serif; font-size: 34px; direction: rtl; }
+  .finish h2 { margin: 6px 0 0; }
+  .finish p { color: var(--hint); margin: 0; line-height: 1.5; }
+  .finish .streak-num { font-size: 44px; font-weight: 700; color: var(--gold); margin-top: 12px; }
+  .week { display: flex; gap: 6px; margin-top: 8px; }
+  .week span { width: 34px; height: 34px; border-radius: 10px; background: var(--bg2); font-size: 11px; display: flex; align-items: center; justify-content: center; color: var(--hint); }
+  .week span.on { background: var(--accent); color: var(--accent-text); }
+</style>
+</head>
+<body>
+
+<div id="app-main" style="display:flex;flex-direction:column;flex:1;min-height:0">
+  <header>
+    <div class="top">
+      <div class="brand">Sabah Tesbihatı<small id="today"></small></div>
+      <div class="chips">
+        <div class="chip streak" id="streakChip" title="Seri">🔥 <span id="streak">0</span></div>
+        <button class="chip" id="listBtn" aria-label="Adımlar">☰</button>
+        <button class="chip" id="settingsBtn" aria-label="Ayarlar">⚙</button>
+      </div>
+    </div>
+    <div class="progress"><i id="progressBar"></i></div>
+    <div class="step-meta"><span id="stepNo"></span><span id="totalCount"></span></div>
+  </header>
+
+  <main>
+    <article class="card" id="card">
+      <h2 id="title"></h2>
+      <p class="pre" id="pre"></p>
+      <div class="ar" id="ar"></div>
+      <div class="tr" id="tr"></div>
+      <p class="mean" id="mean"></p>
+    </article>
+
+    <div class="counter-wrap">
+      <button class="counter" id="counter" aria-label="Say">
+        <svg viewBox="0 0 200 200">
+          <circle class="track" cx="100" cy="100" r="92" fill="none" stroke-width="10"/>
+          <circle class="bar" id="ring" cx="100" cy="100" r="92" fill="none" stroke-width="10"/>
+        </svg>
+        <div class="face">
+          <div class="count" id="count">0</div>
+          <div class="target" id="target"></div>
+          <div class="tap-hint" id="tapHint">dokun</div>
+        </div>
+      </button>
+    </div>
+  </main>
+
+  <nav class="controls">
+    <button class="ctrl" id="prevBtn">‹ Önceki</button>
+    <button class="ctrl" id="undoBtn">↺ Geri al</button>
+    <button class="ctrl primary" id="nextBtn">Sonraki ›</button>
+  </nav>
+</div>
+
+<div id="finish" class="finish hidden">
+  <div class="big">تَقَبَّلَ اللّٰهُ</div>
+  <h2>Allah kabul etsin</h2>
+  <p>Bugünkü sabah tesbihatını tamamladın.</p>
+  <div class="streak-num">🔥 <span id="finishStreak">1</span></div>
+  <p id="finishStreakLabel">günlük seri</p>
+  <div class="week" id="week"></div>
+  <div style="display:flex;gap:8px;margin-top:22px;width:100%;max-width:340px">
+    <button class="ctrl" style="flex:1" id="againBtn">Baştan başla</button>
+    <button class="ctrl primary" style="flex:1" id="closeBtn">Kapat</button>
+  </div>
+</div>
+
+<div id="listSheet" class="sheet-bg hidden">
+  <div class="sheet"><h3>Adımlar</h3><div id="stepList"></div></div>
+</div>
+
+<div id="settingsSheet" class="sheet-bg hidden">
+  <div class="sheet">
+    <h3>Ayarlar</h3>
+    <div class="row">Arapça metin<button class="switch" data-key="showAr"></button></div>
+    <div class="row">Okunuş<button class="switch" data-key="showTr"></button></div>
+    <div class="row">Anlam (meal)<button class="switch" data-key="showMean"></button></div>
+    <div class="row">Titreşim<button class="switch" data-key="haptic"></button></div>
+    <div class="row">Hedefe ulaşınca otomatik geç<button class="switch" data-key="autoNext"></button></div>
+    <button class="danger" id="resetToday">Bugünü sıfırla</button>
+    <p class="note">Tesbihat sırası ve sayıları, yaygın olarak okunan sabah namazı tesbihatına göre hazırlanmıştır; yöreye ve geleneğe göre farklılık gösterebilir. "Sabaha özel" etiketli adımlar sabah (ve akşam) namazından sonra okunan ilave zikirlerdir.</p>
+  </div>
+</div>
+
+<script>
+const STEPS = [
+  {
+    title: "İstiğfar",
+    ar: "أَسْتَغْفِرُ اللّٰهَ",
+    tr: "Estağfirullâh",
+    mean: "Allah'tan bağışlanma dilerim.",
+    n: 3
+  },
+  {
+    title: "Selâm duası",
+    ar: "اللّٰهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ",
+    tr: "Allâhümme ente's-selâmü ve minke's-selâm, tebârakte yâ ze'l-celâli ve'l-ikrâm.",
+    mean: "Allah'ım! Sen Selâm'sın, esenlik ancak sendendir. Ey celâl ve ikram sahibi, sen ne yücesin!",
+    n: 1
+  },
+  {
+    title: "Tevhid",
+    special: true,
+    ar: "لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِي وَيُمِيتُ وَهُوَ حَيٌّ لَا يَمُوتُ بِيَدِهِ الْخَيْرُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ",
+    tr: "Lâ ilâhe illallâhü vahdehû lâ şerîke leh, lehü'l-mülkü ve lehü'l-hamdü yuhyî ve yümîtü ve hüve hayyün lâ yemût, biyedihi'l-hayr, ve hüve alâ külli şey'in kadîr.",
+    mean: "Allah'tan başka ilah yoktur; O birdir, ortağı yoktur. Mülk O'nundur, hamd O'na mahsustur. Diriltir ve öldürür; O ise diridir, ölmez. Hayır O'nun elindedir ve O her şeye kadirdir.",
+    n: 10
+  },
+  {
+    title: "Ateşten sığınma",
+    special: true,
+    ar: "اللّٰهُمَّ أَجِرْنَا مِنَ النَّارِ",
+    tr: "Allâhümme ecirnâ mine'n-nâr.",
+    mean: "Allah'ım, bizi ateşten koru.",
+    n: 7
+  },
+  {
+    title: "Tesbih ve tekbir",
+    ar: "سُبْحَانَ اللّٰهِ وَالْحَمْدُ لِلّٰهِ وَلَا إِلٰهَ إِلَّا اللّٰهُ وَاللّٰهُ أَكْبَرُ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ",
+    tr: "Sübhânallâhi ve'l-hamdü lillâhi ve lâ ilâhe illallâhü vallâhü ekber, ve lâ havle ve lâ kuvvete illâ billâhi'l-aliyyi'l-azîm.",
+    mean: "Allah her türlü noksanlıktan münezzehtir, hamd Allah'adır, Allah'tan başka ilah yoktur, Allah en büyüktür. Güç ve kuvvet ancak yüce ve büyük olan Allah'tandır.",
+    n: 1
+  },
+  {
+    title: "Salavât",
+    ar: "اللّٰهُمَّ صَلِّ عَلَىٰ سَيِّدِنَا مُحَمَّدٍ وَعَلَىٰ آلِ سَيِّدِنَا مُحَمَّدٍ",
+    tr: "Allâhümme salli alâ seyyidinâ Muhammedin ve alâ âli seyyidinâ Muhammed.",
+    mean: "Allah'ım! Efendimiz Muhammed'e ve onun âline rahmet eyle.",
+    n: 1
+  },
+  {
+    title: "Âyetü'l-Kürsî",
+    long: true,
+    pre: "E'ûzü billâhi mine'ş-şeytâni'r-racîm. Bismillâhi'r-rahmâni'r-rahîm.",
+    ar: "اللّٰهُ لَا إِلٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ وَلَا يَئُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ",
+    tr: "Allâhü lâ ilâhe illâ hüve'l-hayyü'l-kayyûm, lâ te'huzühû sinetün ve lâ nevm, lehû mâ fi's-semâvâti ve mâ fi'l-ard, men ze'llezî yeşfeu indehû illâ bi-iznih, ya'lemü mâ beyne eydîhim ve mâ halfehüm, ve lâ yuhîtûne bi-şey'in min ilmihî illâ bimâ şâ', vesia kürsiyyühü's-semâvâti ve'l-ard, ve lâ yeûdühû hıfzuhumâ ve hüve'l-aliyyü'l-azîm.",
+    mean: "Allah, kendisinden başka ilah olmayandır; diridir, kayyûmdur. O'nu ne uyuklama tutar ne de uyku. Göklerdeki ve yerdeki her şey O'nundur. İzni olmadan O'nun katında kim şefaat edebilir? O, kulların önündekini ve arkasındakini bilir. Onlar O'nun ilminden, dilediği kadarı dışında hiçbir şeyi kavrayamazlar. O'nun kürsüsü gökleri ve yeri kaplamıştır; onları koruyup gözetmek O'na ağır gelmez. O, yücedir, büyüktür. (Bakara, 255)",
+    n: 1
+  },
+  {
+    title: "Sübhânallâh",
+    ar: "سُبْحَانَ اللّٰهِ",
+    tr: "Sübhânallâh",
+    mean: "Allah her türlü noksanlıktan uzaktır.",
+    n: 33
+  },
+  {
+    title: "Elhamdülillâh",
+    ar: "الْحَمْدُ لِلّٰهِ",
+    tr: "Elhamdülillâh",
+    mean: "Hamd Allah'a mahsustur.",
+    n: 33
+  },
+  {
+    title: "Allâhü ekber",
+    ar: "اللّٰهُ أَكْبَرُ",
+    tr: "Allâhü ekber",
+    mean: "Allah en büyüktür.",
+    n: 33
+  },
+  {
+    title: "Tevhid",
+    ar: "لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ",
+    tr: "Lâ ilâhe illallâhü vahdehû lâ şerîke leh, lehü'l-mülkü ve lehü'l-hamdü ve hüve alâ külli şey'in kadîr.",
+    mean: "Allah'tan başka ilah yoktur; O birdir, ortağı yoktur. Mülk O'nundur, hamd O'na mahsustur ve O her şeye kadirdir.",
+    n: 1
+  },
+  {
+    title: "Dua",
+    pre: "Ellerini açıp dilediğin gibi dua et. Örnek dua:",
+    ar: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+    tr: "Rabbenâ âtinâ fi'd-dünyâ haseneten ve fi'l-âhirati haseneten ve kınâ azâbe'n-nâr.",
+    mean: "Rabbimiz! Bize dünyada da iyilik ver, ahirette de iyilik ver ve bizi ateş azabından koru. (Bakara, 201)",
+    n: 1
+  },
+  {
+    title: "İstiâze",
+    special: true,
+    ar: "أَعُوذُ بِاللّٰهِ السَّمِيعِ الْعَلِيمِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+    tr: "E'ûzü billâhi's-semî'i'l-alîmi mine'ş-şeytâni'r-racîm.",
+    mean: "Her şeyi işiten ve bilen Allah'a, kovulmuş şeytandan sığınırım.",
+    n: 3
+  },
+  {
+    title: "Haşr Sûresi, son 3 âyet",
+    special: true,
+    long: true,
+    pre: "Bismillâhi'r-rahmâni'r-rahîm.",
+    ar: "هُوَ اللّٰهُ الَّذِي لَا إِلٰهَ إِلَّا هُوَ عَالِمُ الْغَيْبِ وَالشَّهَادَةِ هُوَ الرَّحْمٰنُ الرَّحِيمُ ۝ هُوَ اللّٰهُ الَّذِي لَا إِلٰهَ إِلَّا هُوَ الْمَلِكُ الْقُدُّوسُ السَّلَامُ الْمُؤْمِنُ الْمُهَيْمِنُ الْعَزِيزُ الْجَبَّارُ الْمُتَكَبِّرُ سُبْحَانَ اللّٰهِ عَمَّا يُشْرِكُونَ ۝ هُوَ اللّٰهُ الْخَالِقُ الْبَارِئُ الْمُصَوِّرُ لَهُ الْأَسْمَاءُ الْحُسْنَىٰ يُسَبِّحُ لَهُ مَا فِي السَّمَاوَاتِ وَالْأَرْضِ وَهُوَ الْعَزِيزُ الْحَكِيمُ",
+    tr: "Hüvallâhü'llezî lâ ilâhe illâ hû, âlimü'l-gaybi ve'ş-şehâdeh, hüve'r-rahmânü'r-rahîm. Hüvallâhü'llezî lâ ilâhe illâ hû, el-melikü'l-kuddûsü's-selâmü'l-mü'minü'l-müheyminü'l-azîzü'l-cebbârü'l-mütekebbir, sübhânallâhi ammâ yüşrikûn. Hüvallâhü'l-hâliku'l-bâriü'l-musavviru lehü'l-esmâü'l-hüsnâ, yüsebbihu lehû mâ fi's-semâvâti ve'l-ard, ve hüve'l-azîzü'l-hakîm.",
+    mean: "O, kendisinden başka hiçbir ilah olmayan Allah'tır; görüleni de görülmeyeni de bilendir. O, Rahmân'dır, Rahîm'dir. O, kendisinden başka hiçbir ilah olmayan Allah'tır; mülkün sahibidir, mukaddestir, esenlik verendir, güven verendir, gözetip koruyandır, mutlak güç sahibidir, dilediğini yaptırandır, büyüklükte eşsizdir. Allah, onların ortak koştuklarından uzaktır. O, yaratan, var eden, şekil veren Allah'tır. En güzel isimler O'nundur. Göklerde ve yerde ne varsa O'nu tesbih eder. O, mutlak güç ve hikmet sahibidir. (Haşr, 22-24)",
+    n: 1
+  },
+  {
+    title: "Hasbiyallâh",
+    special: true,
+    ar: "حَسْبِيَ اللّٰهُ لَا إِلٰهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ",
+    tr: "Hasbiyallâhü lâ ilâhe illâ hû, aleyhi tevekkeltü ve hüve rabbü'l-arşi'l-azîm.",
+    mean: "Allah bana yeter. O'ndan başka ilah yoktur. Ben O'na tevekkül ettim. O, büyük Arş'ın Rabbidir. (Tevbe, 129)",
+    n: 7
+  }
+];
+
+const tg = window.Telegram && window.Telegram.WebApp;
+const $ = id => document.getElementById(id);
+const RING_C = 2 * Math.PI * 92;
+
+const DEFAULT_SETTINGS = { showAr: true, showTr: true, showMean: true, haptic: true, autoNext: true };
+let settings = { ...DEFAULT_SETTINGS };
+let state = null;      // { date, step, counts: [] }
+let history = [];      // tamamlanan günler: ["2026-10-18", ...]
+
+// ---------- Depolama (Telegram CloudStorage, yoksa localStorage) ----------
+const useCloud = !!(tg && tg.CloudStorage && tg.isVersionAtLeast && tg.isVersionAtLeast("6.9"));
+
+function storeGet(key) {
+  return new Promise(resolve => {
+    if (useCloud) {
+      tg.CloudStorage.getItem(key, (err, val) => resolve(err ? localGet(key) : (val || localGet(key))));
+    } else {
+      resolve(localGet(key));
+    }
+  });
+}
+function storeSet(key, value) {
+  try { localStorage.setItem(key, value); } catch (e) {}
+  if (useCloud) tg.CloudStorage.setItem(key, value, () => {});
+}
+function localGet(key) {
+  try { return localStorage.getItem(key); } catch (e) { return null; }
+}
+function parse(str, fallback) {
+  try { return str ? JSON.parse(str) : fallback; } catch (e) { return fallback; }
+}
+
+// ---------- Tarih ve seri ----------
+function dateKey(d = new Date()) {
+  const p = n => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+}
+function streak() {
+  const set = new Set(history);
+  const d = new Date();
+  if (!set.has(dateKey(d))) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while (set.has(dateKey(d))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function freshState() {
+  return { date: dateKey(), step: 0, counts: STEPS.map(() => 0) };
+}
+
+// ---------- Titreşim ----------
+function haptic(kind) {
+  if (!settings.haptic || !tg || !tg.HapticFeedback) return;
+  try {
+    if (kind === "tap") tg.HapticFeedback.impactOccurred("light");
+    else if (kind === "step") tg.HapticFeedback.notificationOccurred("success");
+    else if (kind === "soft") tg.HapticFeedback.selectionChanged();
+  } catch (e) {}
+}
+
+// ---------- Kaydetme ----------
+function save() {
+  storeSet("state", JSON.stringify(state));
+}
+
+// ---------- Çizim ----------
+function render() {
+  const s = STEPS[state.step];
+  const c = state.counts[state.step];
+  const done = c >= s.n;
+
+  $("today").textContent = new Date().toLocaleDateString("tr-TR", { weekday: "long", day: "numeric", month: "long" });
+  $("streak").textContent = streak();
+
+  const completedSteps = state.counts.filter((v, i) => v >= STEPS[i].n).length;
+  $("progressBar").style.width = (completedSteps / STEPS.length * 100) + "%";
+  $("stepNo").textContent = `Adım ${state.step + 1} / ${STEPS.length}`;
+  const totalDone = state.counts.reduce((a, v, i) => a + Math.min(v, STEPS[i].n), 0);
+  const totalAll = STEPS.reduce((a, x) => a + x.n, 0);
+  $("totalCount").textContent = `Toplam ${totalDone} / ${totalAll}`;
+
+  const title = $("title");
+  title.textContent = s.title;
+  if (s.special) {
+    const b = document.createElement("span");
+    b.className = "badge";
+    b.textContent = "Sabaha özel";
+    title.appendChild(b);
+  }
+  $("pre").textContent = s.pre || "";
+  $("pre").classList.toggle("hidden", !s.pre);
+  $("ar").textContent = s.ar;
+  $("ar").classList.toggle("long", !!s.long);
+  $("ar").classList.toggle("hidden", !settings.showAr);
+  $("tr").textContent = s.tr;
+  $("tr").classList.toggle("hidden", !settings.showTr);
+  $("mean").textContent = s.mean;
+  $("mean").classList.toggle("hidden", !settings.showMean);
+
+  $("count").textContent = c;
+  $("target").textContent = s.n === 1 ? (done ? "okundu" : "1 kez") : `/ ${s.n}`;
+  $("tapHint").textContent = done ? (state.step === STEPS.length - 1 ? "bitir" : "devam") : (s.n === 1 ? "okudum" : "dokun");
+  const ring = $("ring");
+  ring.style.strokeDasharray = RING_C;
+  ring.style.strokeDashoffset = RING_C * (1 - Math.min(c / s.n, 1));
+  $("counter").classList.toggle("done", done);
+
+  $("prevBtn").disabled = state.step === 0;
+  $("undoBtn").disabled = c === 0;
+  $("nextBtn").textContent = state.step === STEPS.length - 1 ? "Bitir ✓" : "Sonraki ›";
+
+  if (tg && tg.BackButton) {
+    state.step > 0 ? tg.BackButton.show() : tg.BackButton.hide();
+  }
+}
+
+function scrollCardTop() { $("card").scrollTop = 0; }
+
+function goTo(i) {
+  state.step = Math.max(0, Math.min(STEPS.length - 1, i));
+  save(); scrollCardTop(); render();
+}
+
+function next() {
+  if (state.step === STEPS.length - 1) { finish(); return; }
+  haptic("soft");
+  goTo(state.step + 1);
+}
+
+let advanceTimer = null;
+function tap() {
+  const s = STEPS[state.step];
+  const c = state.counts[state.step];
+  if (c >= s.n) { clearTimeout(advanceTimer); next(); return; }
+
+  state.counts[state.step] = c + 1;
+  save();
+  if (c + 1 >= s.n) {
+    haptic("step");
+    render();
+    if (settings.autoNext) {
+      clearTimeout(advanceTimer);
+      advanceTimer = setTimeout(() => {
+        if (state.counts[state.step] >= STEPS[state.step].n) next();
+      }, 450);
+    }
+  } else {
+    haptic("tap");
+    render();
+  }
+}
+
+function undo() {
+  clearTimeout(advanceTimer);
+  if (state.counts[state.step] > 0) {
+    state.counts[state.step]--;
+    haptic("soft"); save(); render();
+  }
+}
+
+function finish() {
+  const today = dateKey();
+  if (!history.includes(today)) {
+    history.push(today);
+    history = history.slice(-400);
+    storeSet("history", JSON.stringify(history));
+  }
+  haptic("step");
+  if (tg && tg.BackButton) tg.BackButton.hide();
+  $("app-main").style.display = "none";
+  $("finish").classList.remove("hidden");
+
+  const st = streak();
+  $("finishStreak").textContent = st;
+  $("finishStreakLabel").textContent = st === 1 ? "günlük seri — yarın da bekleriz" : "gündür aralıksız";
+
+  const week = $("week");
+  week.innerHTML = "";
+  const set = new Set(history);
+  for (let k = 6; k >= 0; k--) {
+    const d = new Date(); d.setDate(d.getDate() - k);
+    const el = document.createElement("span");
+    el.textContent = d.toLocaleDateString("tr-TR", { weekday: "short" });
+    if (set.has(dateKey(d))) el.classList.add("on");
+    week.appendChild(el);
+  }
+}
+
+function restart() {
+  state = freshState(); save();
+  $("finish").classList.add("hidden");
+  $("app-main").style.display = "flex";
+  scrollCardTop(); render();
+}
+
+// ---------- Sayfalar ----------
+function openSheet(id) { $(id).classList.remove("hidden"); }
+function closeSheet(id) { $(id).classList.add("hidden"); }
+
+function renderList() {
+  const box = $("stepList");
+  box.innerHTML = "";
+  STEPS.forEach((s, i) => {
+    const b = document.createElement("button");
+    const complete = state.counts[i] >= s.n;
+    b.className = "list-item" + (i === state.step ? " current" : "") + (complete ? " complete" : "");
+    const dot = document.createElement("span"); dot.className = "dot"; dot.textContent = complete ? "✓" : "";
+    const t = document.createElement("span"); t.textContent = s.title + (s.special ? " ✦" : "");
+    const n = document.createElement("span"); n.className = "n"; n.textContent = `${Math.min(state.counts[i], s.n)}/${s.n}`;
+    b.append(dot, t, n);
+    b.onclick = () => { closeSheet("listSheet"); goTo(i); };
+    box.appendChild(b);
+  });
+}
+
+function renderSettings() {
+  document.querySelectorAll(".switch").forEach(sw => sw.classList.toggle("on", !!settings[sw.dataset.key]));
+}
+
+// ---------- Olaylar ----------
+$("counter").addEventListener("click", tap);
+$("undoBtn").addEventListener("click", undo);
+$("prevBtn").addEventListener("click", () => { clearTimeout(advanceTimer); haptic("soft"); goTo(state.step - 1); });
+$("nextBtn").addEventListener("click", () => { clearTimeout(advanceTimer); next(); });
+$("listBtn").addEventListener("click", () => { renderList(); openSheet("listSheet"); });
+$("settingsBtn").addEventListener("click", () => { renderSettings(); openSheet("settingsSheet"); });
+document.querySelectorAll(".sheet-bg").forEach(bg => bg.addEventListener("click", e => { if (e.target === bg) bg.classList.add("hidden"); }));
+document.querySelectorAll(".switch").forEach(sw => sw.addEventListener("click", () => {
+  settings[sw.dataset.key] = !settings[sw.dataset.key];
+  storeSet("settings", JSON.stringify(settings));
+  renderSettings(); render();
+}));
+$("resetToday").addEventListener("click", () => { closeSheet("settingsSheet"); restart(); });
+$("againBtn").addEventListener("click", restart);
+$("closeBtn").addEventListener("click", () => { if (tg && tg.close) tg.close(); });
+
+// Telegram yoksa (tarayıcıda test) klavye: boşluk = say, Backspace = geri al
+document.addEventListener("keydown", e => {
+  if (!$("finish").classList.contains("hidden")) return;
+  if (e.code === "Space" || e.code === "Enter") { e.preventDefault(); tap(); }
+  else if (e.code === "Backspace") { e.preventDefault(); undo(); }
+  else if (e.code === "ArrowRight") next();
+  else if (e.code === "ArrowLeft") goTo(state.step - 1);
+});
+
+// Gün değiştiyse (uygulama açık kalmışsa) yeni güne başla
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden && state && state.date !== dateKey()) restart();
+});
+
+// ---------- Başlangıç ----------
+(async function init() {
+  if (tg) {
+    tg.ready();
+    tg.expand();
+    if (tg.disableVerticalSwipes) try { tg.disableVerticalSwipes(); } catch (e) {}
+    if (tg.BackButton) tg.BackButton.onClick(() => goTo(state.step - 1));
+    try {
+      tg.setHeaderColor("bg_color");
+      tg.setBackgroundColor("bg_color");
+    } catch (e) {}
+  }
+
+  const [st, hi, se] = await Promise.all([storeGet("state"), storeGet("history"), storeGet("settings")]);
+  settings = { ...DEFAULT_SETTINGS, ...parse(se, {}) };
+  history = parse(hi, []);
+  const saved = parse(st, null);
+  state = (saved && saved.date === dateKey() && Array.isArray(saved.counts) && saved.counts.length === STEPS.length)
+    ? saved : freshState();
+
+  render();
+  if (history.includes(dateKey()) && state.counts.every((v, i) => v >= STEPS[i].n)) finish();
+})();
+</script>
+</body>
+</html>
