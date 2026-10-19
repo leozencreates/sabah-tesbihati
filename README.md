@@ -10,7 +10,8 @@ Tek dosya (`index.html`), sunucu tarafı kod gerekmez.
 - Telegram titreşim (haptic), tema renkleri, geri tuşu desteği
 - İlerleme Telegram CloudStorage'a kaydedilir (cihazlar arası senkron), günlük seri (🔥) takibi
 - Her gün otomatik sıfırlanır
-- Ayarlar: Arapça / okunuş / meal göster-gizle, titreşim, otomatik geçiş
+- Ayarlar: dil (Türkçe / English / Русский), Arapça / okunuş / meal göster-gizle, titreşim, otomatik geçiş
+- Dil, Telegram dil ayarından otomatik seçilir; bot da kullanıcının dilinde cevap verir
 - 📿 Tesbihmatik: 33'lük / 99'luk serbest zikir sayacı (tur ve toplam takibi, 99'da 33 ve 66'da titreşim). Doğrudan açmak için adresin sonuna `#tesbih` ekle
 
 ## Bot (/start karşılama mesajı)
@@ -46,7 +47,7 @@ Mini App'ler HTTPS üzerinden sunulmalı. En kolay yol:
 ## Tesbihatı düzenleme
 `index.html` içindeki `STEPS` dizisinde her adım:
 ```js
-{ title, ar, tr, mean, n, special?, long?, pre? }
+{ title: {tr,en,ru}, ar, tl: {tr,en,ru}, mean: {tr,en,ru}, n, special?, long?, pre?: {tr,en,ru} }
 ```
 `n` tekrar sayısıdır. Adım ekleyip çıkarmak, sırayı değiştirmek için diziyi düzenlemen yeterli.
 

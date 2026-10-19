@@ -146,12 +146,12 @@
 <div id="app-main" style="display:flex;flex-direction:column;flex:1;min-height:0">
   <header>
     <div class="top">
-      <div class="brand">Sabah Tesbihatı<small id="today"></small></div>
+      <div class="brand"><span data-i18n="appTitle">Sabah Tesbihatı</span><small id="today"></small></div>
       <div class="chips">
-        <div class="chip streak" id="streakChip" title="Seri">🔥 <span id="streak">0</span></div>
-        <button class="chip" id="tsbBtn" aria-label="Tesbihmatik">📿</button>
-        <button class="chip" id="listBtn" aria-label="Adımlar">☰</button>
-        <button class="chip" id="settingsBtn" aria-label="Ayarlar">⚙</button>
+        <div class="chip streak" id="streakChip" data-i18n-title="streak">🔥 <span id="streak">0</span></div>
+        <button class="chip" id="tsbBtn" data-i18n-aria="tsbTitle">📿</button>
+        <button class="chip" id="listBtn" data-i18n-aria="steps">☰</button>
+        <button class="chip" id="settingsBtn" data-i18n-aria="settings">⚙</button>
       </div>
     </div>
     <div class="progress"><i id="progressBar"></i></div>
@@ -168,7 +168,7 @@
     </article>
 
     <div class="counter-wrap">
-      <button class="counter" id="counter" aria-label="Say">
+      <button class="counter" id="counter" data-i18n-aria="count">
         <svg viewBox="0 0 200 200">
           <circle class="track" cx="100" cy="100" r="92" fill="none" stroke-width="10"/>
           <circle class="bar" id="ring" cx="100" cy="100" r="92" fill="none" stroke-width="10"/>
@@ -176,37 +176,37 @@
         <div class="face">
           <div class="count" id="count">0</div>
           <div class="target" id="target"></div>
-          <div class="tap-hint" id="tapHint">dokun</div>
+          <div class="tap-hint" id="tapHint"></div>
         </div>
       </button>
     </div>
   </main>
 
   <nav class="controls">
-    <button class="ctrl" id="prevBtn">‹ Önceki</button>
-    <button class="ctrl" id="undoBtn">↺ Geri al</button>
+    <button class="ctrl" id="prevBtn" data-i18n="prev">‹ Önceki</button>
+    <button class="ctrl" id="undoBtn" data-i18n="undo">↺ Geri al</button>
     <button class="ctrl primary" id="nextBtn">Sonraki ›</button>
   </nav>
 </div>
 
 <div id="finish" class="finish hidden">
   <div class="big">تَقَبَّلَ اللّٰهُ</div>
-  <h2>Allah kabul etsin</h2>
-  <p>Bugünkü sabah tesbihatını tamamladın.</p>
+  <h2 data-i18n="accepted">Allah kabul etsin</h2>
+  <p data-i18n="completed">Bugünkü sabah tesbihatını tamamladın.</p>
   <div class="streak-num">🔥 <span id="finishStreak">1</span></div>
-  <p id="finishStreakLabel">günlük seri</p>
+  <p id="finishStreakLabel"></p>
   <div class="week" id="week"></div>
   <div style="display:flex;gap:8px;margin-top:22px;width:100%;max-width:340px">
-    <button class="ctrl" style="flex:1" id="againBtn">Baştan başla</button>
-    <button class="ctrl primary" style="flex:1" id="closeBtn">Kapat</button>
+    <button class="ctrl" style="flex:1" id="againBtn" data-i18n="again">Baştan başla</button>
+    <button class="ctrl primary" style="flex:1" id="closeBtn" data-i18n="close">Kapat</button>
   </div>
 </div>
 
 <div id="tsb" class="tsb hidden">
   <header>
     <div class="top">
-      <div class="brand">Tesbihmatik<small>Serbest zikir sayacı</small></div>
-      <div class="chips"><button class="chip" id="tsbClose" aria-label="Tesbihata dön">✕</button></div>
+      <div class="brand"><span data-i18n="tsbTitle">Tesbihmatik</span><small data-i18n="tsbSub">Serbest zikir sayacı</small></div>
+      <div class="chips"><button class="chip" id="tsbClose" data-i18n-aria="backToMain">✕</button></div>
     </div>
     <div class="seg" id="tsbSeg">
       <button data-n="33">33</button>
@@ -216,7 +216,7 @@
 
   <main>
     <div class="counter-wrap">
-      <button class="counter big" id="tsbCounter" aria-label="Say">
+      <button class="counter big" id="tsbCounter" data-i18n-aria="count">
         <svg viewBox="0 0 200 200">
           <circle class="track" cx="100" cy="100" r="92" fill="none" stroke-width="10"/>
           <circle class="bar" id="tsbRing" cx="100" cy="100" r="92" fill="none" stroke-width="10"/>
@@ -224,166 +224,434 @@
         <div class="face">
           <div class="count" id="tsbCount">0</div>
           <div class="target" id="tsbTarget">/ 33</div>
-          <div class="tap-hint">dokun</div>
+          <div class="tap-hint" data-i18n="tap">dokun</div>
         </div>
       </button>
     </div>
     <div class="tsb-stats">
-      <div><b id="tsbRounds">0</b><span>tur</span></div>
-      <div><b id="tsbTotal">0</b><span>toplam</span></div>
+      <div><b id="tsbRounds">0</b><span data-i18n="rounds">tur</span></div>
+      <div><b id="tsbTotal">0</b><span data-i18n="totalLow">toplam</span></div>
     </div>
   </main>
 
   <nav class="controls">
-    <button class="ctrl" id="tsbUndo">↺ Geri al</button>
-    <button class="ctrl" id="tsbReset">Sıfırla</button>
+    <button class="ctrl" id="tsbUndo" data-i18n="undo">↺ Geri al</button>
+    <button class="ctrl" id="tsbReset" data-i18n="reset">Sıfırla</button>
   </nav>
 </div>
 
 <div id="listSheet" class="sheet-bg hidden">
-  <div class="sheet"><h3>Adımlar</h3><div id="stepList"></div></div>
+  <div class="sheet"><h3 data-i18n="steps">Adımlar</h3><div id="stepList"></div></div>
 </div>
 
 <div id="settingsSheet" class="sheet-bg hidden">
   <div class="sheet">
-    <h3>Ayarlar</h3>
-    <div class="row">Arapça metin<button class="switch" data-key="showAr"></button></div>
-    <div class="row">Okunuş<button class="switch" data-key="showTr"></button></div>
-    <div class="row">Anlam (meal)<button class="switch" data-key="showMean"></button></div>
-    <div class="row">Titreşim<button class="switch" data-key="haptic"></button></div>
-    <div class="row">Hedefe ulaşınca otomatik geç<button class="switch" data-key="autoNext"></button></div>
-    <button class="danger" id="resetToday">Bugünü sıfırla</button>
-    <p class="note">Tesbihat sırası ve sayıları, yaygın olarak okunan sabah namazı tesbihatına göre hazırlanmıştır; yöreye ve geleneğe göre farklılık gösterebilir. "Sabaha özel" etiketli adımlar sabah (ve akşam) namazından sonra okunan ilave zikirlerdir.</p>
+    <h3 data-i18n="settings">Ayarlar</h3>
+    <div class="row" style="border:0;padding-bottom:0" data-i18n="language">Dil</div>
+    <div class="seg" id="langSeg" style="margin-top:8px;margin-bottom:6px">
+      <button data-lang="tr">Türkçe</button>
+      <button data-lang="en">English</button>
+      <button data-lang="ru">Русский</button>
+    </div>
+    <div class="row"><span data-i18n="showAr">Arapça metin</span><button class="switch" data-key="showAr"></button></div>
+    <div class="row"><span data-i18n="showTr">Okunuş</span><button class="switch" data-key="showTr"></button></div>
+    <div class="row"><span data-i18n="showMean">Anlam (meal)</span><button class="switch" data-key="showMean"></button></div>
+    <div class="row"><span data-i18n="haptic">Titreşim</span><button class="switch" data-key="haptic"></button></div>
+    <div class="row"><span data-i18n="autoNext">Hedefe ulaşınca otomatik geç</span><button class="switch" data-key="autoNext"></button></div>
+    <button class="danger" id="resetToday" data-i18n="resetToday">Bugünü sıfırla</button>
+    <p class="note" data-i18n="note"></p>
   </div>
 </div>
 
 <script>
+// Her adımda title / pre / tl (okunuş) / mean dile göre: { tr, en, ru }
 const STEPS = [
   {
-    title: "İstiğfar",
+    title: { tr: "İstiğfar", en: "Istighfar", ru: "Истигфар" },
     ar: "أَسْتَغْفِرُ اللّٰهَ",
-    tr: "Estağfirullâh",
-    mean: "Allah'tan bağışlanma dilerim.",
+    tl: { tr: "Estağfirullâh", en: "Astaghfirullah", ru: "Астагфируллах" },
+    mean: {
+      tr: "Allah'tan bağışlanma dilerim.",
+      en: "I seek forgiveness from Allah.",
+      ru: "Прошу прощения у Аллаха."
+    },
     n: 3
   },
   {
-    title: "Selâm duası",
+    title: { tr: "Selâm duası", en: "Prayer of peace", ru: "Дуа мира" },
     ar: "اللّٰهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ",
-    tr: "Allâhümme ente's-selâmü ve minke's-selâm, tebârakte yâ ze'l-celâli ve'l-ikrâm.",
-    mean: "Allah'ım! Sen Selâm'sın, esenlik ancak sendendir. Ey celâl ve ikram sahibi, sen ne yücesin!",
+    tl: {
+      tr: "Allâhümme ente's-selâmü ve minke's-selâm, tebârakte yâ ze'l-celâli ve'l-ikrâm.",
+      en: "Allahumma antas-salamu wa minkas-salam, tabarakta ya dhal-jalali wal-ikram.",
+      ru: "Аллахумма антас-саляму ва минкас-салям, табаракта йа зэль-джаляли валь-икрам."
+    },
+    mean: {
+      tr: "Allah'ım! Sen Selâm'sın, esenlik ancak sendendir. Ey celâl ve ikram sahibi, sen ne yücesin!",
+      en: "O Allah! You are Peace and from You comes peace. Blessed are You, O Possessor of majesty and honour!",
+      ru: "О Аллах! Ты — Мир, и от Тебя мир. Благословен Ты, о Обладатель величия и щедрости!"
+    },
     n: 1
   },
   {
-    title: "Tevhid",
+    title: { tr: "Tevhid", en: "Tawhid", ru: "Таухид" },
     special: true,
     ar: "لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِي وَيُمِيتُ وَهُوَ حَيٌّ لَا يَمُوتُ بِيَدِهِ الْخَيْرُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ",
-    tr: "Lâ ilâhe illallâhü vahdehû lâ şerîke leh, lehü'l-mülkü ve lehü'l-hamdü yuhyî ve yümîtü ve hüve hayyün lâ yemût, biyedihi'l-hayr, ve hüve alâ külli şey'in kadîr.",
-    mean: "Allah'tan başka ilah yoktur; O birdir, ortağı yoktur. Mülk O'nundur, hamd O'na mahsustur. Diriltir ve öldürür; O ise diridir, ölmez. Hayır O'nun elindedir ve O her şeye kadirdir.",
+    tl: {
+      tr: "Lâ ilâhe illallâhü vahdehû lâ şerîke leh, lehü'l-mülkü ve lehü'l-hamdü yuhyî ve yümîtü ve hüve hayyün lâ yemût, biyedihi'l-hayr, ve hüve alâ külli şey'in kadîr.",
+      en: "La ilaha illallahu wahdahu la sharika lah, lahul-mulku wa lahul-hamdu yuhyi wa yumitu wa huwa hayyun la yamut, biyadihil-khayr, wa huwa ala kulli shay'in qadir.",
+      ru: "Ля иляха илляллаху вахдаху ля шарика лях, ляхуль-мульку ва ляхуль-хамду йухйи ва йумиту ва хува хаййун ля йамут, бийадихиль-хайр, ва хува аля кулли шай'ин кадир."
+    },
+    mean: {
+      tr: "Allah'tan başka ilah yoktur; O birdir, ortağı yoktur. Mülk O'nundur, hamd O'na mahsustur. Diriltir ve öldürür; O ise diridir, ölmez. Hayır O'nun elindedir ve O her şeye kadirdir.",
+      en: "There is no god but Allah, alone, without partner. His is the dominion and His is the praise. He gives life and causes death, and He is Ever-Living and does not die. In His hand is all good, and He has power over all things.",
+      ru: "Нет бога, кроме Аллаха, Единого, у Которого нет сотоварища. Ему принадлежит власть, Ему хвала. Он оживляет и умерщвляет, и Он Живой, Который не умирает. В Его руке благо, и Он над всякой вещью мощен."
+    },
     n: 10
   },
   {
-    title: "Ateşten sığınma",
+    title: { tr: "Ateşten sığınma", en: "Refuge from the Fire", ru: "Защита от Огня" },
     special: true,
     ar: "اللّٰهُمَّ أَجِرْنَا مِنَ النَّارِ",
-    tr: "Allâhümme ecirnâ mine'n-nâr.",
-    mean: "Allah'ım, bizi ateşten koru.",
+    tl: { tr: "Allâhümme ecirnâ mine'n-nâr.", en: "Allahumma ajirna minan-nar.", ru: "Аллахумма аджирна минан-нар." },
+    mean: {
+      tr: "Allah'ım, bizi ateşten koru.",
+      en: "O Allah, protect us from the Fire.",
+      ru: "О Аллах, защити нас от Огня."
+    },
     n: 7
   },
   {
-    title: "Tesbih ve tekbir",
+    title: { tr: "Tesbih ve tekbir", en: "Tasbih and takbir", ru: "Тасбих и такбир" },
     ar: "سُبْحَانَ اللّٰهِ وَالْحَمْدُ لِلّٰهِ وَلَا إِلٰهَ إِلَّا اللّٰهُ وَاللّٰهُ أَكْبَرُ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ",
-    tr: "Sübhânallâhi ve'l-hamdü lillâhi ve lâ ilâhe illallâhü vallâhü ekber, ve lâ havle ve lâ kuvvete illâ billâhi'l-aliyyi'l-azîm.",
-    mean: "Allah her türlü noksanlıktan münezzehtir, hamd Allah'adır, Allah'tan başka ilah yoktur, Allah en büyüktür. Güç ve kuvvet ancak yüce ve büyük olan Allah'tandır.",
+    tl: {
+      tr: "Sübhânallâhi ve'l-hamdü lillâhi ve lâ ilâhe illallâhü vallâhü ekber, ve lâ havle ve lâ kuvvete illâ billâhi'l-aliyyi'l-azîm.",
+      en: "Subhanallahi wal-hamdu lillahi wa la ilaha illallahu wallahu akbar, wa la hawla wa la quwwata illa billahil-aliyyil-azim.",
+      ru: "Субханаллахи валь-хамду лилляхи ва ля иляха илляллаху валлаху акбар, ва ля хауля ва ля куввата илля билляхиль-алиййиль-азым."
+    },
+    mean: {
+      tr: "Allah her türlü noksanlıktan münezzehtir, hamd Allah'adır, Allah'tan başka ilah yoktur, Allah en büyüktür. Güç ve kuvvet ancak yüce ve büyük olan Allah'tandır.",
+      en: "Glory be to Allah, praise be to Allah, there is no god but Allah, and Allah is the Greatest. There is no might nor power except with Allah, the Most High, the Supreme.",
+      ru: "Пречист Аллах, хвала Аллаху, нет бога, кроме Аллаха, Аллах Велик. Нет мощи и силы ни у кого, кроме Всевышнего, Великого Аллаха."
+    },
     n: 1
   },
   {
-    title: "Salavât",
+    title: { tr: "Salavât", en: "Salawat", ru: "Салават" },
     ar: "اللّٰهُمَّ صَلِّ عَلَىٰ سَيِّدِنَا مُحَمَّدٍ وَعَلَىٰ آلِ سَيِّدِنَا مُحَمَّدٍ",
-    tr: "Allâhümme salli alâ seyyidinâ Muhammedin ve alâ âli seyyidinâ Muhammed.",
-    mean: "Allah'ım! Efendimiz Muhammed'e ve onun âline rahmet eyle.",
+    tl: {
+      tr: "Allâhümme salli alâ seyyidinâ Muhammedin ve alâ âli seyyidinâ Muhammed.",
+      en: "Allahumma salli ala sayyidina Muhammadin wa ala ali sayyidina Muhammad.",
+      ru: "Аллахумма салли аля саййидина Мухаммадин ва аля али саййидина Мухаммад."
+    },
+    mean: {
+      tr: "Allah'ım! Efendimiz Muhammed'e ve onun âline rahmet eyle.",
+      en: "O Allah, send blessings upon our master Muhammad and upon the family of our master Muhammad.",
+      ru: "О Аллах, благослови нашего господина Мухаммада и семью нашего господина Мухаммада."
+    },
     n: 1
   },
   {
-    title: "Âyetü'l-Kürsî",
+    title: { tr: "Âyetü'l-Kürsî", en: "Ayat al-Kursi", ru: "Аят аль-Курси" },
     long: true,
-    pre: "E'ûzü billâhi mine'ş-şeytâni'r-racîm. Bismillâhi'r-rahmâni'r-rahîm.",
+    pre: {
+      tr: "E'ûzü billâhi mine'ş-şeytâni'r-racîm. Bismillâhi'r-rahmâni'r-rahîm.",
+      en: "A'udhu billahi minash-shaytanir-rajim. Bismillahir-rahmanir-rahim.",
+      ru: "А'узу билляхи минаш-шайтанир-раджим. Бисмилляхир-рахманир-рахим."
+    },
     ar: "اللّٰهُ لَا إِلٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ وَلَا يَئُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ",
-    tr: "Allâhü lâ ilâhe illâ hüve'l-hayyü'l-kayyûm, lâ te'huzühû sinetün ve lâ nevm, lehû mâ fi's-semâvâti ve mâ fi'l-ard, men ze'llezî yeşfeu indehû illâ bi-iznih, ya'lemü mâ beyne eydîhim ve mâ halfehüm, ve lâ yuhîtûne bi-şey'in min ilmihî illâ bimâ şâ', vesia kürsiyyühü's-semâvâti ve'l-ard, ve lâ yeûdühû hıfzuhumâ ve hüve'l-aliyyü'l-azîm.",
-    mean: "Allah, kendisinden başka ilah olmayandır; diridir, kayyûmdur. O'nu ne uyuklama tutar ne de uyku. Göklerdeki ve yerdeki her şey O'nundur. İzni olmadan O'nun katında kim şefaat edebilir? O, kulların önündekini ve arkasındakini bilir. Onlar O'nun ilminden, dilediği kadarı dışında hiçbir şeyi kavrayamazlar. O'nun kürsüsü gökleri ve yeri kaplamıştır; onları koruyup gözetmek O'na ağır gelmez. O, yücedir, büyüktür. (Bakara, 255)",
+    tl: {
+      tr: "Allâhü lâ ilâhe illâ hüve'l-hayyü'l-kayyûm, lâ te'huzühû sinetün ve lâ nevm, lehû mâ fi's-semâvâti ve mâ fi'l-ard, men ze'llezî yeşfeu indehû illâ bi-iznih, ya'lemü mâ beyne eydîhim ve mâ halfehüm, ve lâ yuhîtûne bi-şey'in min ilmihî illâ bimâ şâ', vesia kürsiyyühü's-semâvâti ve'l-ard, ve lâ yeûdühû hıfzuhumâ ve hüve'l-aliyyü'l-azîm.",
+      en: "Allahu la ilaha illa huwal-hayyul-qayyum, la ta'khudhuhu sinatun wa la nawm, lahu ma fis-samawati wa ma fil-ard, man dhalladhi yashfa'u indahu illa bi-idhnih, ya'lamu ma bayna aydihim wa ma khalfahum, wa la yuhituna bi-shay'in min ilmihi illa bima sha', wasi'a kursiyyuhus-samawati wal-ard, wa la ya'uduhu hifzuhuma wa huwal-aliyyul-azim.",
+      ru: "Аллаху ля иляха илля хуваль-хаййуль-каййум, ля та'хузуху синатун ва ля наум, ляху ма фис-самавати ва ма филь-ард, ман заллязи йашфа'у 'индаху илля би-изних, йа'ляму ма байна айдихим ва ма хальфахум, ва ля йухитуна би-шай'ин мин 'ильмихи илля бима ша', васи'а курсиййухус-самавати валь-ард, ва ля йаудуху хифзухума ва хуваль-'алиййуль-'азым."
+    },
+    mean: {
+      tr: "Allah, kendisinden başka ilah olmayandır; diridir, kayyûmdur. O'nu ne uyuklama tutar ne de uyku. Göklerdeki ve yerdeki her şey O'nundur. İzni olmadan O'nun katında kim şefaat edebilir? O, kulların önündekini ve arkasındakini bilir. Onlar O'nun ilminden, dilediği kadarı dışında hiçbir şeyi kavrayamazlar. O'nun kürsüsü gökleri ve yeri kaplamıştır; onları koruyup gözetmek O'na ağır gelmez. O, yücedir, büyüktür. (Bakara, 255)",
+      en: "Allah — there is no god but He, the Ever-Living, the Sustainer of all existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who could intercede with Him except by His permission? He knows what is before them and what is behind them, and they encompass nothing of His knowledge except what He wills. His Kursi extends over the heavens and the earth, and preserving them does not tire Him. He is the Most High, the Most Great. (al-Baqarah 2:255)",
+      ru: "Аллах — нет божества, кроме Него, Живого, Вседержителя. Им не овладевают ни дремота, ни сон. Ему принадлежит то, что на небесах, и то, что на земле. Кто станет заступаться перед Ним без Его дозволения? Он знает их будущее и прошлое. Они постигают из Его знания только то, что Он пожелает. Его Престол (Курси) объемлет небеса и землю, и не тяготит Его оберегание их. Он — Возвышенный, Великий. (аль-Бакара, 255)"
+    },
     n: 1
   },
   {
-    title: "Sübhânallâh",
+    title: { tr: "Sübhânallâh", en: "Subhanallah", ru: "Субханаллах" },
     ar: "سُبْحَانَ اللّٰهِ",
-    tr: "Sübhânallâh",
-    mean: "Allah her türlü noksanlıktan uzaktır.",
+    tl: { tr: "Sübhânallâh", en: "Subhanallah", ru: "Субханаллах" },
+    mean: {
+      tr: "Allah her türlü noksanlıktan uzaktır.",
+      en: "Glory be to Allah.",
+      ru: "Пречист Аллах."
+    },
     n: 33
   },
   {
-    title: "Elhamdülillâh",
+    title: { tr: "Elhamdülillâh", en: "Alhamdulillah", ru: "Альхамдулиллях" },
     ar: "الْحَمْدُ لِلّٰهِ",
-    tr: "Elhamdülillâh",
-    mean: "Hamd Allah'a mahsustur.",
+    tl: { tr: "Elhamdülillâh", en: "Alhamdulillah", ru: "Альхамдулиллях" },
+    mean: {
+      tr: "Hamd Allah'a mahsustur.",
+      en: "All praise is due to Allah.",
+      ru: "Хвала Аллаху."
+    },
     n: 33
   },
   {
-    title: "Allâhü ekber",
+    title: { tr: "Allâhü ekber", en: "Allahu akbar", ru: "Аллаху акбар" },
     ar: "اللّٰهُ أَكْبَرُ",
-    tr: "Allâhü ekber",
-    mean: "Allah en büyüktür.",
+    tl: { tr: "Allâhü ekber", en: "Allahu akbar", ru: "Аллаху акбар" },
+    mean: {
+      tr: "Allah en büyüktür.",
+      en: "Allah is the Greatest.",
+      ru: "Аллах Велик."
+    },
     n: 33
   },
   {
-    title: "Tevhid",
+    title: { tr: "Tevhid", en: "Tawhid", ru: "Таухид" },
     ar: "لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ",
-    tr: "Lâ ilâhe illallâhü vahdehû lâ şerîke leh, lehü'l-mülkü ve lehü'l-hamdü ve hüve alâ külli şey'in kadîr.",
-    mean: "Allah'tan başka ilah yoktur; O birdir, ortağı yoktur. Mülk O'nundur, hamd O'na mahsustur ve O her şeye kadirdir.",
+    tl: {
+      tr: "Lâ ilâhe illallâhü vahdehû lâ şerîke leh, lehü'l-mülkü ve lehü'l-hamdü ve hüve alâ külli şey'in kadîr.",
+      en: "La ilaha illallahu wahdahu la sharika lah, lahul-mulku wa lahul-hamdu wa huwa ala kulli shay'in qadir.",
+      ru: "Ля иляха илляллаху вахдаху ля шарика лях, ляхуль-мульку ва ляхуль-хамду ва хува аля кулли шай'ин кадир."
+    },
+    mean: {
+      tr: "Allah'tan başka ilah yoktur; O birdir, ortağı yoktur. Mülk O'nundur, hamd O'na mahsustur ve O her şeye kadirdir.",
+      en: "There is no god but Allah, alone, without partner. His is the dominion and His is the praise, and He has power over all things.",
+      ru: "Нет бога, кроме Аллаха, Единого, у Которого нет сотоварища. Ему принадлежит власть, Ему хвала, и Он над всякой вещью мощен."
+    },
     n: 1
   },
   {
-    title: "Dua",
-    pre: "Ellerini açıp dilediğin gibi dua et. Örnek dua:",
+    title: { tr: "Dua", en: "Dua", ru: "Дуа" },
+    pre: {
+      tr: "Ellerini açıp dilediğin gibi dua et. Örnek dua:",
+      en: "Raise your hands and make dua as you wish. For example:",
+      ru: "Подними руки и сделай дуа, как пожелаешь. Например:"
+    },
     ar: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
-    tr: "Rabbenâ âtinâ fi'd-dünyâ haseneten ve fi'l-âhirati haseneten ve kınâ azâbe'n-nâr.",
-    mean: "Rabbimiz! Bize dünyada da iyilik ver, ahirette de iyilik ver ve bizi ateş azabından koru. (Bakara, 201)",
+    tl: {
+      tr: "Rabbenâ âtinâ fi'd-dünyâ haseneten ve fi'l-âhirati haseneten ve kınâ azâbe'n-nâr.",
+      en: "Rabbana atina fid-dunya hasanatan wa fil-akhirati hasanatan wa qina adhaban-nar.",
+      ru: "Раббана атина фид-дунья хасанатан ва филь-ахырати хасанатан ва кына 'азабан-нар."
+    },
+    mean: {
+      tr: "Rabbimiz! Bize dünyada da iyilik ver, ahirette de iyilik ver ve bizi ateş azabından koru. (Bakara, 201)",
+      en: "Our Lord, give us good in this world and good in the Hereafter, and protect us from the punishment of the Fire. (al-Baqarah 2:201)",
+      ru: "Господь наш! Даруй нам в этом мире добро и в Последней жизни добро и защити нас от мучений в Огне. (аль-Бакара, 201)"
+    },
     n: 1
   },
   {
-    title: "İstiâze",
+    title: { tr: "İstiâze", en: "Isti'adha", ru: "Истиаза" },
     special: true,
     ar: "أَعُوذُ بِاللّٰهِ السَّمِيعِ الْعَلِيمِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
-    tr: "E'ûzü billâhi's-semî'i'l-alîmi mine'ş-şeytâni'r-racîm.",
-    mean: "Her şeyi işiten ve bilen Allah'a, kovulmuş şeytandan sığınırım.",
+    tl: {
+      tr: "E'ûzü billâhi's-semî'i'l-alîmi mine'ş-şeytâni'r-racîm.",
+      en: "A'udhu billahis-sami'il-alimi minash-shaytanir-rajim.",
+      ru: "А'узу билляхис-сами'иль-'алими минаш-шайтанир-раджим."
+    },
+    mean: {
+      tr: "Her şeyi işiten ve bilen Allah'a, kovulmuş şeytandan sığınırım.",
+      en: "I seek refuge in Allah, the All-Hearing, the All-Knowing, from the accursed Satan.",
+      ru: "Прибегаю к защите Аллаха, Всеслышащего, Всезнающего, от проклятого шайтана."
+    },
     n: 3
   },
   {
-    title: "Haşr Sûresi, son 3 âyet",
+    title: { tr: "Haşr Sûresi, son 3 âyet", en: "Surah al-Hashr, last 3 verses", ru: "Сура аль-Хашр, последние 3 аята" },
     special: true,
     long: true,
-    pre: "Bismillâhi'r-rahmâni'r-rahîm.",
+    pre: { tr: "Bismillâhi'r-rahmâni'r-rahîm.", en: "Bismillahir-rahmanir-rahim.", ru: "Бисмилляхир-рахманир-рахим." },
     ar: "هُوَ اللّٰهُ الَّذِي لَا إِلٰهَ إِلَّا هُوَ عَالِمُ الْغَيْبِ وَالشَّهَادَةِ هُوَ الرَّحْمٰنُ الرَّحِيمُ ۝ هُوَ اللّٰهُ الَّذِي لَا إِلٰهَ إِلَّا هُوَ الْمَلِكُ الْقُدُّوسُ السَّلَامُ الْمُؤْمِنُ الْمُهَيْمِنُ الْعَزِيزُ الْجَبَّارُ الْمُتَكَبِّرُ سُبْحَانَ اللّٰهِ عَمَّا يُشْرِكُونَ ۝ هُوَ اللّٰهُ الْخَالِقُ الْبَارِئُ الْمُصَوِّرُ لَهُ الْأَسْمَاءُ الْحُسْنَىٰ يُسَبِّحُ لَهُ مَا فِي السَّمَاوَاتِ وَالْأَرْضِ وَهُوَ الْعَزِيزُ الْحَكِيمُ",
-    tr: "Hüvallâhü'llezî lâ ilâhe illâ hû, âlimü'l-gaybi ve'ş-şehâdeh, hüve'r-rahmânü'r-rahîm. Hüvallâhü'llezî lâ ilâhe illâ hû, el-melikü'l-kuddûsü's-selâmü'l-mü'minü'l-müheyminü'l-azîzü'l-cebbârü'l-mütekebbir, sübhânallâhi ammâ yüşrikûn. Hüvallâhü'l-hâliku'l-bâriü'l-musavviru lehü'l-esmâü'l-hüsnâ, yüsebbihu lehû mâ fi's-semâvâti ve'l-ard, ve hüve'l-azîzü'l-hakîm.",
-    mean: "O, kendisinden başka hiçbir ilah olmayan Allah'tır; görüleni de görülmeyeni de bilendir. O, Rahmân'dır, Rahîm'dir. O, kendisinden başka hiçbir ilah olmayan Allah'tır; mülkün sahibidir, mukaddestir, esenlik verendir, güven verendir, gözetip koruyandır, mutlak güç sahibidir, dilediğini yaptırandır, büyüklükte eşsizdir. Allah, onların ortak koştuklarından uzaktır. O, yaratan, var eden, şekil veren Allah'tır. En güzel isimler O'nundur. Göklerde ve yerde ne varsa O'nu tesbih eder. O, mutlak güç ve hikmet sahibidir. (Haşr, 22-24)",
+    tl: {
+      tr: "Hüvallâhü'llezî lâ ilâhe illâ hû, âlimü'l-gaybi ve'ş-şehâdeh, hüve'r-rahmânü'r-rahîm. Hüvallâhü'llezî lâ ilâhe illâ hû, el-melikü'l-kuddûsü's-selâmü'l-mü'minü'l-müheyminü'l-azîzü'l-cebbârü'l-mütekebbir, sübhânallâhi ammâ yüşrikûn. Hüvallâhü'l-hâliku'l-bâriü'l-musavviru lehü'l-esmâü'l-hüsnâ, yüsebbihu lehû mâ fi's-semâvâti ve'l-ard, ve hüve'l-azîzü'l-hakîm.",
+      en: "Huwallahulladhi la ilaha illa hu, alimul-ghaybi wash-shahadah, huwar-rahmanur-rahim. Huwallahulladhi la ilaha illa hu, al-malikul-quddusus-salamul-mu'minul-muhayminul-azizul-jabbarul-mutakabbir, subhanallahi amma yushrikun. Huwallahul-khaliqul-bari'ul-musawwiru lahul-asma'ul-husna, yusabbihu lahu ma fis-samawati wal-ard, wa huwal-azizul-hakim.",
+      ru: "Хуваллахуллязи ля иляха илля ху, 'алимуль-гайби ваш-шахадах, хувар-рахманур-рахим. Хуваллахуллязи ля иляха илля ху, аль-маликуль-куддусус-салямуль-му'минуль-мухайминуль-'азизуль-джаббаруль-мутакаббир, субханаллахи 'амма йушрикун. Хуваллахуль-халикуль-бари'уль-мусаввиру ляхуль-асма'уль-хусна, йусаббиху ляху ма фис-самавати валь-ард, ва хуваль-'азизуль-хаким."
+    },
+    mean: {
+      tr: "O, kendisinden başka hiçbir ilah olmayan Allah'tır; görüleni de görülmeyeni de bilendir. O, Rahmân'dır, Rahîm'dir. O, kendisinden başka hiçbir ilah olmayan Allah'tır; mülkün sahibidir, mukaddestir, esenlik verendir, güven verendir, gözetip koruyandır, mutlak güç sahibidir, dilediğini yaptırandır, büyüklükte eşsizdir. Allah, onların ortak koştuklarından uzaktır. O, yaratan, var eden, şekil veren Allah'tır. En güzel isimler O'nundur. Göklerde ve yerde ne varsa O'nu tesbih eder. O, mutlak güç ve hikmet sahibidir. (Haşr, 22-24)",
+      en: "He is Allah, other than whom there is no god, Knower of the unseen and the witnessed. He is the Most Merciful, the Especially Merciful. He is Allah, other than whom there is no god: the Sovereign, the Pure, the Source of Peace, the Granter of Security, the Overseer, the Almighty, the Compeller, the Supreme. Exalted is Allah above whatever they associate with Him. He is Allah, the Creator, the Originator, the Fashioner; to Him belong the most beautiful names. Whatever is in the heavens and the earth glorifies Him, and He is the Almighty, the Wise. (al-Hashr 59:22–24)",
+      ru: "Он — Аллах, нет божества, кроме Него, Знающий сокровенное и явное. Он — Милостивый, Милосердный. Он — Аллах, нет божества, кроме Него, Царь, Святой, Мир, Дарующий безопасность, Охраняющий, Могущественный, Всесильный, Превосходящий. Пречист Аллах и далёк от того, что они приобщают в сотоварищи! Он — Аллах, Творец, Создатель, Дарующий облик. У Него — прекраснейшие имена. Его славит то, что на небесах и на земле. Он — Могущественный, Мудрый. (аль-Хашр, 22–24)"
+    },
     n: 1
   },
   {
-    title: "Hasbiyallâh",
+    title: { tr: "Hasbiyallâh", en: "Hasbiyallah", ru: "Хасбияллах" },
     special: true,
     ar: "حَسْبِيَ اللّٰهُ لَا إِلٰهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ",
-    tr: "Hasbiyallâhü lâ ilâhe illâ hû, aleyhi tevekkeltü ve hüve rabbü'l-arşi'l-azîm.",
-    mean: "Allah bana yeter. O'ndan başka ilah yoktur. Ben O'na tevekkül ettim. O, büyük Arş'ın Rabbidir. (Tevbe, 129)",
+    tl: {
+      tr: "Hasbiyallâhü lâ ilâhe illâ hû, aleyhi tevekkeltü ve hüve rabbü'l-arşi'l-azîm.",
+      en: "Hasbiyallahu la ilaha illa hu, alayhi tawakkaltu wa huwa rabbul-arshil-azim.",
+      ru: "Хасбияллаху ля иляха илля ху, 'алейхи таваккальту ва хува раббуль-'аршиль-'азым."
+    },
+    mean: {
+      tr: "Allah bana yeter. O'ndan başka ilah yoktur. Ben O'na tevekkül ettim. O, büyük Arş'ın Rabbidir. (Tevbe, 129)",
+      en: "Allah is sufficient for me. There is no god but He. In Him I put my trust, and He is the Lord of the Mighty Throne. (at-Tawbah 9:129)",
+      ru: "Мне достаточно Аллаха. Нет божества, кроме Него. На Него я уповаю, и Он — Господь великого Трона. (ат-Тауба, 129)"
+    },
     n: 7
   }
 ];
+
+// ---------- Arayüz metinleri ----------
+const I18N = {
+  tr: {
+    locale: "tr-TR",
+    appTitle: "Sabah Tesbihatı",
+    streak: "Seri",
+    steps: "Adımlar",
+    settings: "Ayarlar",
+    count: "Say",
+    tap: "dokun",
+    readOnce: "okudum",
+    readDone: "okundu",
+    once: "1 kez",
+    finishHint: "bitir",
+    cont: "devam",
+    prev: "‹ Önceki",
+    undo: "↺ Geri al",
+    next: "Sonraki ›",
+    finishBtn: "Bitir ✓",
+    stepNo: (i, n) => `Adım ${i} / ${n}`,
+    total: (a, b) => `Toplam ${a} / ${b}`,
+    special: "Sabaha özel",
+    accepted: "Allah kabul etsin",
+    completed: "Bugünkü sabah tesbihatını tamamladın.",
+    streakLabel: n => n === 1 ? "günlük seri — yarın da bekleriz" : "gündür aralıksız",
+    again: "Baştan başla",
+    close: "Kapat",
+    tsbTitle: "Tesbihmatik",
+    tsbSub: "Serbest zikir sayacı",
+    backToMain: "Tesbihata dön",
+    rounds: "tur",
+    totalLow: "toplam",
+    reset: "Sıfırla",
+    language: "Dil",
+    showAr: "Arapça metin",
+    showTr: "Okunuş",
+    showMean: "Anlam (meal)",
+    haptic: "Titreşim",
+    autoNext: "Hedefe ulaşınca otomatik geç",
+    resetToday: "Bugünü sıfırla",
+    note: "Tesbihat sırası ve sayıları, yaygın olarak okunan sabah namazı tesbihatına göre hazırlanmıştır; yöreye ve geleneğe göre farklılık gösterebilir. \"Sabaha özel\" etiketli adımlar sabah (ve akşam) namazından sonra okunan ilave zikirlerdir."
+  },
+  en: {
+    locale: "en-GB",
+    appTitle: "Morning Tasbihat",
+    streak: "Streak",
+    steps: "Steps",
+    settings: "Settings",
+    count: "Count",
+    tap: "tap",
+    readOnce: "done",
+    readDone: "read",
+    once: "once",
+    finishHint: "finish",
+    cont: "next",
+    prev: "‹ Back",
+    undo: "↺ Undo",
+    next: "Next ›",
+    finishBtn: "Finish ✓",
+    stepNo: (i, n) => `Step ${i} / ${n}`,
+    total: (a, b) => `Total ${a} / ${b}`,
+    special: "Morning only",
+    accepted: "May Allah accept it",
+    completed: "You have completed today's morning tasbihat.",
+    streakLabel: n => n === 1 ? "day streak — see you tomorrow" : "days in a row",
+    again: "Start over",
+    close: "Close",
+    tsbTitle: "Tesbihmatik",
+    tsbSub: "Free dhikr counter",
+    backToMain: "Back to tasbihat",
+    rounds: "rounds",
+    totalLow: "total",
+    reset: "Reset",
+    language: "Language",
+    showAr: "Arabic text",
+    showTr: "Transliteration",
+    showMean: "Meaning",
+    haptic: "Vibration",
+    autoNext: "Auto-advance at target",
+    resetToday: "Reset today",
+    note: "The order and counts follow the commonly recited tasbihat after the Fajr prayer; they may differ by region and tradition. Steps marked \"Morning only\" are additional dhikr recited after the Fajr (and Maghrib) prayer."
+  },
+  ru: {
+    locale: "ru-RU",
+    appTitle: "Утренний тасбихат",
+    streak: "Серия",
+    steps: "Шаги",
+    settings: "Настройки",
+    count: "Счёт",
+    tap: "нажми",
+    readOnce: "прочитал",
+    readDone: "прочитано",
+    once: "1 раз",
+    finishHint: "завершить",
+    cont: "далее",
+    prev: "‹ Назад",
+    undo: "↺ Отменить",
+    next: "Далее ›",
+    finishBtn: "Готово ✓",
+    stepNo: (i, n) => `Шаг ${i} / ${n}`,
+    total: (a, b) => `Всего ${a} / ${b}`,
+    special: "Только утром",
+    accepted: "Да примет Аллах",
+    completed: "Ты завершил сегодняшний утренний тасбихат.",
+    streakLabel: n => {
+      if (n === 1) return "день подряд — ждём тебя завтра";
+      const m10 = n % 10, m100 = n % 100;
+      if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return "дня подряд";
+      return m10 === 1 && m100 !== 11 ? "день подряд" : "дней подряд";
+    },
+    again: "Начать заново",
+    close: "Закрыть",
+    tsbTitle: "Тесбихматик",
+    tsbSub: "Свободный счётчик зикра",
+    backToMain: "Вернуться к тасбихату",
+    rounds: "кругов",
+    totalLow: "всего",
+    reset: "Сбросить",
+    language: "Язык",
+    showAr: "Арабский текст",
+    showTr: "Транскрипция",
+    showMean: "Перевод смысла",
+    haptic: "Вибрация",
+    autoNext: "Автопереход по достижении цели",
+    resetToday: "Сбросить сегодняшний день",
+    note: "Порядок и количество повторений соответствуют широко распространённому тасбихату после утреннего намаза и могут различаться в зависимости от региона и традиции. Шаги с пометкой «Только утром» — дополнительные зикры, читаемые после утреннего (и вечернего) намаза."
+  }
+};
+const LANGS = Object.keys(I18N);
 
 const tg = window.Telegram && window.Telegram.WebApp;
 const $ = id => document.getElementById(id);
 const RING_C = 2 * Math.PI * 92;
 
-const DEFAULT_SETTINGS = { showAr: true, showTr: true, showMean: true, haptic: true, autoNext: true };
+const DEFAULT_SETTINGS = { showAr: true, showTr: true, showMean: true, haptic: true, autoNext: true, lang: null };
 let settings = { ...DEFAULT_SETTINGS };
 let state = null;      // { date, step, counts: [] }
 let history = [];      // tamamlanan günler: ["2026-10-18", ...]
+let lang = "tr";
+
+// ---------- Dil ----------
+// Kayıtlı seçim yoksa Telegram'ın (yoksa tarayıcının) diline göre seç
+function detectLang() {
+  const user = tg && tg.initDataUnsafe && tg.initDataUnsafe.user;
+  const code = ((user && user.language_code) || navigator.language || "").toLowerCase();
+  if (code.startsWith("tr")) return "tr";
+  if (/^(ru|uk|be|kk|ky)/.test(code)) return "ru";
+  return code ? "en" : "tr";
+}
+function t(key, ...args) {
+  const v = I18N[lang][key];
+  return typeof v === "function" ? v(...args) : v;
+}
+function applyLang() {
+  lang = LANGS.includes(settings.lang) ? settings.lang : detectLang();
+  document.documentElement.lang = lang;
+  document.title = t("appTitle");
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-aria]").forEach(el => el.setAttribute("aria-label", t(el.dataset.i18nAria)));
+  document.querySelectorAll("[data-i18n-title]").forEach(el => el.setAttribute("title", t(el.dataset.i18nTitle)));
+}
 
 // ---------- Depolama (Telegram CloudStorage, yoksa localStorage) ----------
 const useCloud = !!(tg && tg.CloudStorage && tg.isVersionAtLeast && tg.isVersionAtLeast("6.9"));
@@ -446,37 +714,37 @@ function render() {
   const c = state.counts[state.step];
   const done = c >= s.n;
 
-  $("today").textContent = new Date().toLocaleDateString("tr-TR", { weekday: "long", day: "numeric", month: "long" });
+  $("today").textContent = new Date().toLocaleDateString(t("locale"), { weekday: "long", day: "numeric", month: "long" });
   $("streak").textContent = streak();
 
   const completedSteps = state.counts.filter((v, i) => v >= STEPS[i].n).length;
   $("progressBar").style.width = (completedSteps / STEPS.length * 100) + "%";
-  $("stepNo").textContent = `Adım ${state.step + 1} / ${STEPS.length}`;
+  $("stepNo").textContent = t("stepNo", state.step + 1, STEPS.length);
   const totalDone = state.counts.reduce((a, v, i) => a + Math.min(v, STEPS[i].n), 0);
   const totalAll = STEPS.reduce((a, x) => a + x.n, 0);
-  $("totalCount").textContent = `Toplam ${totalDone} / ${totalAll}`;
+  $("totalCount").textContent = t("total", totalDone, totalAll);
 
   const title = $("title");
-  title.textContent = s.title;
+  title.textContent = s.title[lang];
   if (s.special) {
     const b = document.createElement("span");
     b.className = "badge";
-    b.textContent = "Sabaha özel";
+    b.textContent = t("special");
     title.appendChild(b);
   }
-  $("pre").textContent = s.pre || "";
+  $("pre").textContent = s.pre ? s.pre[lang] : "";
   $("pre").classList.toggle("hidden", !s.pre);
   $("ar").textContent = s.ar;
   $("ar").classList.toggle("long", !!s.long);
   $("ar").classList.toggle("hidden", !settings.showAr);
-  $("tr").textContent = s.tr;
+  $("tr").textContent = s.tl[lang];
   $("tr").classList.toggle("hidden", !settings.showTr);
-  $("mean").textContent = s.mean;
+  $("mean").textContent = s.mean[lang];
   $("mean").classList.toggle("hidden", !settings.showMean);
 
   $("count").textContent = c;
-  $("target").textContent = s.n === 1 ? (done ? "okundu" : "1 kez") : `/ ${s.n}`;
-  $("tapHint").textContent = done ? (state.step === STEPS.length - 1 ? "bitir" : "devam") : (s.n === 1 ? "okudum" : "dokun");
+  $("target").textContent = s.n === 1 ? (done ? t("readDone") : t("once")) : `/ ${s.n}`;
+  $("tapHint").textContent = done ? (state.step === STEPS.length - 1 ? t("finishHint") : t("cont")) : (s.n === 1 ? t("readOnce") : t("tap"));
   const ring = $("ring");
   ring.style.strokeDasharray = RING_C;
   ring.style.strokeDashoffset = RING_C * (1 - Math.min(c / s.n, 1));
@@ -484,7 +752,7 @@ function render() {
 
   $("prevBtn").disabled = state.step === 0;
   $("undoBtn").disabled = c === 0;
-  $("nextBtn").textContent = state.step === STEPS.length - 1 ? "Bitir ✓" : "Sonraki ›";
+  $("nextBtn").textContent = state.step === STEPS.length - 1 ? t("finishBtn") : t("next");
 
   if (tg && tg.BackButton) {
     state.step > 0 ? tg.BackButton.show() : tg.BackButton.hide();
@@ -549,7 +817,7 @@ function finish() {
 
   const st = streak();
   $("finishStreak").textContent = st;
-  $("finishStreakLabel").textContent = st === 1 ? "günlük seri — yarın da bekleriz" : "gündür aralıksız";
+  $("finishStreakLabel").textContent = t("streakLabel", st);
 
   const week = $("week");
   week.innerHTML = "";
@@ -557,7 +825,7 @@ function finish() {
   for (let k = 6; k >= 0; k--) {
     const d = new Date(); d.setDate(d.getDate() - k);
     const el = document.createElement("span");
-    el.textContent = d.toLocaleDateString("tr-TR", { weekday: "short" });
+    el.textContent = d.toLocaleDateString(t("locale"), { weekday: "short" });
     if (set.has(dateKey(d))) el.classList.add("on");
     week.appendChild(el);
   }
@@ -640,7 +908,7 @@ function renderList() {
     const complete = state.counts[i] >= s.n;
     b.className = "list-item" + (i === state.step ? " current" : "") + (complete ? " complete" : "");
     const dot = document.createElement("span"); dot.className = "dot"; dot.textContent = complete ? "✓" : "";
-    const t = document.createElement("span"); t.textContent = s.title + (s.special ? " ✦" : "");
+    const t = document.createElement("span"); t.textContent = s.title[lang] + (s.special ? " ✦" : "");
     const n = document.createElement("span"); n.className = "n"; n.textContent = `${Math.min(state.counts[i], s.n)}/${s.n}`;
     b.append(dot, t, n);
     b.onclick = () => { closeSheet("listSheet"); goTo(i); };
@@ -650,6 +918,7 @@ function renderList() {
 
 function renderSettings() {
   document.querySelectorAll(".switch").forEach(sw => sw.classList.toggle("on", !!settings[sw.dataset.key]));
+  document.querySelectorAll("#langSeg button").forEach(b => b.classList.toggle("on", b.dataset.lang === lang));
 }
 
 // ---------- Olaylar ----------
@@ -664,6 +933,11 @@ document.querySelectorAll(".switch").forEach(sw => sw.addEventListener("click", 
   settings[sw.dataset.key] = !settings[sw.dataset.key];
   storeSet("settings", JSON.stringify(settings));
   renderSettings(); render();
+}));
+document.querySelectorAll("#langSeg button").forEach(b => b.addEventListener("click", () => {
+  settings.lang = b.dataset.lang;
+  storeSet("settings", JSON.stringify(settings));
+  haptic("soft"); applyLang(); renderSettings(); render();
 }));
 $("resetToday").addEventListener("click", () => { closeSheet("settingsSheet"); restart(); });
 $("againBtn").addEventListener("click", restart);
@@ -712,6 +986,7 @@ document.addEventListener("visibilitychange", () => {
 
   const [st, hi, se, ts] = await Promise.all([storeGet("state"), storeGet("history"), storeGet("settings"), storeGet("tesbih")]);
   settings = { ...DEFAULT_SETTINGS, ...parse(se, {}) };
+  applyLang();
   tsb = { ...tsb, ...parse(ts, {}) };
   history = parse(hi, []);
   const saved = parse(st, null);
